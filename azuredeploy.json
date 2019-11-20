@@ -137,10 +137,13 @@
                             "objectId": "[reference(variables('webAppResourceId'), '2018-02-01', 'Full').identity.principalId]"
                         },
                         "permissions": [
-                            "Get",
-                            "List",
-                            "CreateOrUpdate",
-                            "Delete"
+                            "ListIdentityProvider",
+                            "GetService",
+                            "CreateOrUpdateService",
+                            "CreateOrUpdateService",
+                            "GetToken",
+                            "CreateOrUpdateToken",
+                            "DeleteToken"
                         ]
                     },
                     "dependsOn": [
