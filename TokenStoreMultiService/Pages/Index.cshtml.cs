@@ -50,9 +50,19 @@ namespace TokenStoreMultiService.Pages
             var objectId = this.User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
 
             // Get an API token to access Token Store
-            var azureServiceTokenProvider = new AzureServiceTokenProvider();
-            var tokenStoreApiToken = await azureServiceTokenProvider.GetAccessTokenAsync("https://tokenstore.azure.net");
+            // For local debug use RunAs=Developer to get User logged into VS
+            // var azureServiceTokenProvider = new AzureServiceTokenProvider("RunAs=Developer; DeveloperTool=VisualStudio");
+            var azureServiceTokenProvider = new AzureServiceTokenProvider("");
+
             var tokenStoreUrl = this._configuration["TokenStoreUrl"];
+
+            if (tokenStoreUrl.EndsWith("/"))
+            {
+                tokenStoreUrl = tokenStoreUrl.TrimEnd('/');
+            }
+
+            var tokenStoreApiToken = await azureServiceTokenProvider.GetAccessTokenAsync(tokenStoreUrl);            
+
             var tokenStoreClient = new TokenStore.TokenStoreClient(tokenStoreUrl, tokenStoreApiToken);
 
             // Get Token Store token resource for Dropbox for this user (and create it if it doesn't exist)
